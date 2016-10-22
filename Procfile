@@ -1,1 +1,1 @@
-web: bundle exec rackup -p 80
+web: rackup -p 80
