@@ -17,4 +17,9 @@ class NitpickAPI < Grape::API
     { hello: 'world' }
   end
 
+  get :users do
+    logger.info 'Users called'
+    [ { id: 0, firstname: 'John', lastname: 'Doe', username: 'jdoe' }, { id: 1, firstname: 'Jane', lastname: 'Doe', username: 'jdoe' }]
+  end
+
 end
