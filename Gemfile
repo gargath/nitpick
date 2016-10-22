@@ -5,6 +5,7 @@ ruby '2.3.1'
 gem 'bundler'
 gem 'grape'
 gem 'rake'
+gem 'puma'
 gem 'rack-test', :group => :test
 gem 'rspec', :group => :test
 
