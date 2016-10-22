@@ -4,8 +4,8 @@ begin
 rescue LoadError
 end
 
-task :default => [:rubocop, :spec]
-task :test    => :spec
+task default: [:rubocop, :spec]
+task test:    :spec
 task :rubocop do
   sh 'rubocop'
 end

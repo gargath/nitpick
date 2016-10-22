@@ -1,0 +1,7 @@
+Lint/HandleExceptions:
+  Exclude:
+    - 'Rakefile'
+
+Style/LeadingCommentSpace:
+  Exclude:
+    - 'config.ru'

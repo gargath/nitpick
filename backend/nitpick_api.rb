@@ -1,5 +1,6 @@
 require 'grape'
 
+# The main API class
 class NitpickAPI < Grape::API
   content_type :json, 'application/json'
   prefix 'api'
@@ -19,7 +20,9 @@ class NitpickAPI < Grape::API
 
   get :users do
     logger.info 'Users called'
-    [ { id: 0, firstname: 'John', lastname: 'Doe', username: 'jdoe' }, { id: 1, firstname: 'Jane', lastname: 'Doe', username: 'jdoe' }]
+    [
+      { id: 0, firstname: 'John', lastname: 'Doe', username: 'jdoe' },
+      { id: 1, firstname: 'Jane', lastname: 'Doe', username: 'jdoe' }
+    ]
   end
-
 end

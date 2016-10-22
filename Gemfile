@@ -5,7 +5,7 @@ ruby '2.3.1'
 gem 'bundler'
 gem 'grape'
 gem 'rake'
-gem 'puma', :group => :production
+gem 'puma', group: :production
 gem 'rack-cors'
-gem 'rack-test', :group => :test
-gem 'rspec', :group => :test
+gem 'rack-test', group: :test
+gem 'rspec', group: :test
