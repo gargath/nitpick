@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'spec_helper'
 
 describe NitpickAPI do
@@ -5,14 +6,6 @@ describe NitpickAPI do
 
   def app
     NitpickAPI
-  end
-
-  context 'GET /v1/hello' do
-    it 'says hello to the world' do
-      get '/v1/hello'
-      expect(last_response.status).to eq(200)
-      expect(JSON.parse(last_response.body)['hello']).to eq 'world'
-    end
   end
 
   context 'GET /v1/users' do

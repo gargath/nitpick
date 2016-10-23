@@ -1,6 +1,7 @@
 AllCops:
   Exclude:
     - 'frontend/**/*'
+  TargetRubyVersion: 2.3
 
 Lint/HandleExceptions:
   Exclude:

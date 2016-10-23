@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 #\ -s puma
 require 'rack/cors'
 require './backend/nitpick_api.rb'
