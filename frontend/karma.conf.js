@@ -14,7 +14,8 @@ module.exports = function (config) {
             'bower_components/restangular/dist/restangular.js',
             'bower_components/angular-mocks/angular-mocks.js',
             'components/**/*.js',
-            'view*/**/*.js'
+            'view*/**/*.js',
+            'app.js'
         ],
 
         autoWatch: true,

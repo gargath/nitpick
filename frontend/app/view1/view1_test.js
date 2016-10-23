@@ -1,8 +1,7 @@
 'use strict';
 
 describe('myApp.view1 module', function () {
-
-
+  beforeEach(module('myApp'));
   beforeEach(module('myApp.view1'));
   beforeEach(module('restangular'));
   var $rootScope, $httpBackend, Restangular, View1Ctrl, createController;
@@ -13,7 +12,7 @@ describe('myApp.view1 module', function () {
     $rootScope = $injector.get('$rootScope');
     Restangular = $injector.get('Restangular');
     $httpBackend = $injector.get('$httpBackend');
-    $httpBackend.when('GET', 'http://nitpick-6828.herokuapp.com/api/v1/users')
+    $httpBackend.when('GET', '/api/v1/users')
       .respond(
         allUsers
       );
