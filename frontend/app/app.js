@@ -15,14 +15,14 @@ angular.module('myApp', [
 
   $routeProvider.otherwise({redirectTo: '/view1'});
 
-  RestangularProvider.setBaseUrl('http://nitpick-6828.herokuapp.com/api/v1');
+  RestangularProvider.setBaseUrl('/api/v1');
 
   var refreshAccessToken = function() {
     var deferred = $q.defer();
 
     deferred.reject("Unauthorized!");
     return deferred.promise;
-  }
+  };
 
   RestangularProvider.setErrorInterceptor(function (response, deferred, responseHandler) {
     if (response.status === 404) {

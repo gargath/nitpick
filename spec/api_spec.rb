@@ -7,17 +7,17 @@ describe NitpickAPI do
     NitpickAPI
   end
 
-  context 'GET /api/v1/hello' do
+  context 'GET /v1/hello' do
     it 'says hello to the world' do
-      get '/api/v1/hello'
+      get '/v1/hello'
       expect(last_response.status).to eq(200)
       expect(JSON.parse(last_response.body)['hello']).to eq 'world'
     end
   end
 
-  context 'GET /api/v1/users' do
+  context 'GET /v1/users' do
     it 'returns many users' do
-      get '/api/v1/users'
+      get '/v1/users'
       expect(last_response.status).to eq(200)
       expect(JSON.parse(last_response.body).count).to be > 0
     end
