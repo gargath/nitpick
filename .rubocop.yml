@@ -1,3 +1,7 @@
+AllCops:
+  Exclude:
+    - 'frontend/**/*'
+
 Lint/HandleExceptions:
   Exclude:
     - 'Rakefile'
@@ -5,3 +9,7 @@ Lint/HandleExceptions:
 Style/LeadingCommentSpace:
   Exclude:
     - 'config.ru'
+
+Style/EndOfLine:
+  Exclude:
+    - '**/*'
