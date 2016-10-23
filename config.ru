@@ -18,4 +18,4 @@ map '/web' do
 end
 
 headers = { 'Content-Type' => 'text/html', 'Content-Length' => '9' }
-->() { [404, headers, ['Not Found']] }
+run ->(env) { [404, headers, ['Not Found']] }
