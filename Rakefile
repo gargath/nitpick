@@ -4,8 +4,11 @@ begin
 rescue LoadError
 end
 
-task default: [:rubocop, :spec]
+task default: [:rubocop, :spec, :karma]
 task test:    :spec
 task :rubocop do
   sh 'rubocop'
+end
+task :karma do
+  sh 'npm run test-single-run'
 end
