@@ -9,4 +9,13 @@ use Rack::Cors do
   end
 end
 
-run NitpickAPI
+map "/api" do
+  run NitpickAPI
+end
+
+map "/web" do
+  use Rack::Static, urls: ['/'], root: 'frontend', index: 'index.html'
+end
+
+headers = {'Content-Type' => 'text/html', 'Content-Length' => '9'}
+run lambda { |env| [404, headers, ['Not Found']] }

@@ -3,7 +3,6 @@ require 'grape'
 # The main API class
 class NitpickAPI < Grape::API
   content_type :json, 'application/json'
-  prefix 'api'
   version 'v1', using: :path
   default_format :json
 
