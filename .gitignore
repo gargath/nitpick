@@ -1,2 +1,4 @@
-.idea/*
-.bundle/*
+.idea
+.bundle
+tmp
+.DS_Store
