@@ -52,6 +52,8 @@ GEM
       rack (>= 1.0)
     rainbow (2.1.0)
     rake (11.3.0)
+    rollbar (2.13.3)
+      multi_json
     rspec (3.5.0)
       rspec-core (~> 3.5.0)
       rspec-expectations (~> 3.5.0)
@@ -95,6 +97,7 @@ DEPENDENCIES
   rack-cors
   rack-test
   rake
+  rollbar
   rspec
   rubocop
 
