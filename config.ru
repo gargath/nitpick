@@ -5,8 +5,6 @@ require 'rollbar'
 require './backend/nitpick_api.rb'
 require './backend/rollbar_interceptor.rb'
 
-puts ENV['RACK_ENV']
-
 Rollbar.configure do |config|
   config.access_token = '8e4c44565fd5499597a641000a3181d2'
   config.enabled = false unless ENV['RACK_ENV'] == 'production'
