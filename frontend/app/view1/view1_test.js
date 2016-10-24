@@ -34,10 +34,8 @@ describe('myApp.view1 module', function () {
 
     $httpBackend.flush();
     expect(Restangular.stripRestangular($rootScope.allUsers)).toEqual(allUsers);
-
-
-    //respond([{firstName: "brett"}]);
-    //expect(scope.allUsers).toBeDefined();
   });
+
+  it('should op')
 
 });

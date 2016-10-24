@@ -1,0 +1,20 @@
+<div tabindex="-1" role="dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" ng-click="$ctrl.cancel()" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title">Sign up details</h4>
+        </div>
+        <div class="modal-body">
+            <label for="yourname">Your name:</label>
+            <input type="text" id="yourname" ng-model="yourname"/>
+            <label for="email">Your e-mail:</label>
+            <input type="email" id="email" ng-model="email"/>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn" ng-click="$ctrl.cancel()">Cancel</button>
+            <button type="button" class="btn btn-primary" ng-click="$ctrl.ok()">Signup!</button>
+        </div>
+    </div>
+</div>

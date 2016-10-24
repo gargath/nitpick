@@ -1,4 +1,4 @@
-<div ng-controller="View1Ctrl">
+<div ng-controller="View1Ctrl as $ctrl">
   <div class="container">
     <div class="header clearfix">
       <nav>
@@ -13,7 +13,7 @@
     <div class="jumbotron">
       <h1>Nitpick Home...</h1>
       <p class="lead">Now with more features, more snazzy icons, and lots more blood, sweat and tears!</p>
-      <p><a class="btn btn-lg btn-success" href="#" role="button">Sign up now!</a></p>
+      <p><a class="btn btn-lg btn-success" href="#" ng-click="$ctrl.signupModal()" role="button">Sign up now!</a></p>
     </div>
 
     <div class="row">
