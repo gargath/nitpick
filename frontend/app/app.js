@@ -8,6 +8,7 @@ angular.module('myApp', [
   'myApp.view1',
   'myApp.view2',
   'myApp.version',
+  'myApp.modal',
   'ui.bootstrap',
   'restangular'
 ]).config(['$locationProvider', '$routeProvider', 'RestangularProvider', function ($locationProvider, $routeProvider, RestangularProvider) {
