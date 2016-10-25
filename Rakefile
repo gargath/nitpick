@@ -7,11 +7,18 @@ begin
 rescue LoadError
 end
 
+desc 'Run all Tests'
 task default: [:rubocop, :spec, :karma]
-task test:    :spec
+
+desc 'Run RSpec Tests'
+task test: :spec
+
+desc 'Run Rubocop on Ruby Codebase'
 task :rubocop do
   sh 'rubocop'
 end
+
+desc 'Run Karma Tests on JS Codebase'
 task :karma do
   sh 'npm run test-single-run'
 end

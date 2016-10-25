@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 require 'spec_helper'
 
-describe AuthAPI do
+describe Nitpick::AuthAPI do
   include Rack::Test::Methods
 
   def app
-    AuthAPI
+    Nitpick::AuthAPI
   end
 
   context 'when missing parameter' do

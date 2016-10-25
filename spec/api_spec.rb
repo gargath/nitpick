@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 require 'spec_helper'
 
-describe NitpickAPI do
+describe Nitpick::API do
   include Rack::Test::Methods
 
   def app
-    NitpickAPI
+    Nitpick::API
   end
 
   context 'GET /v1/users' do

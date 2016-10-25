@@ -3,16 +3,19 @@ AllCops:
     - 'frontend/**/*'
   TargetRubyVersion: 2.3
 
+Metrics/LineLength:
+  Max: 100
+
+Style/MethodLength:
+  Max: 80
+
 Lint/HandleExceptions:
   Exclude:
     - 'Rakefile'
 
 Lint/RescueException:
   Exclude:
-    - 'backend/rollbar_interceptor.rb'
-
-Metrics/LineLength:
-  Max: 100
+    - 'backend/middleware/rollbar_interceptor.rb'
 
 Style/LeadingCommentSpace:
   Exclude:

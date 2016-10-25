@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 require 'spec_helper'
 
-describe StatusAPI do
+describe Nitpick::StatusAPI do
   include Rack::Test::Methods
 
   def app
-    StatusAPI
+    Nitpick::StatusAPI
   end
 
   context 'GET /status/v1/ping' do
