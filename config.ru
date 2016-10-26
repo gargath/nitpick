@@ -2,7 +2,7 @@
 #\ -s puma
 require 'rack/cors'
 require 'rollbar'
-require './backend/nitpick_api.rb'
+require './backend/api/nitpick_api.rb'
 require './backend/middleware/rollbar_interceptor.rb'
 require './backend/middleware/jwt_validator.rb'
 
