@@ -6,7 +6,7 @@ AllCops:
 Metrics/LineLength:
   Max: 100
 
-Style/MethodLength:
+Metrics/MethodLength:
   Max: 80
 
 Lint/HandleExceptions:

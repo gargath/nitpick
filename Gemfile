@@ -13,3 +13,4 @@ gem 'rspec', group: :test
 gem 'rubocop', groups: [:development, :test]
 gem 'rollbar'
 gem 'oj', '~> 2.12.14'
+gem 'simplecov', group: :test

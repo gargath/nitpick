@@ -18,6 +18,7 @@ GEM
     descendants_tracker (0.0.4)
       thread_safe (~> 0.3, >= 0.3.1)
     diff-lcs (1.2.5)
+    docile (1.1.5)
     equalizer (0.0.11)
     grape (0.18.0)
       activesupport
@@ -32,6 +33,7 @@ GEM
     hashie (3.4.6)
     i18n (0.7.0)
     ice_nine (0.11.2)
+    json (2.0.2)
     jwt (1.5.6)
     minitest (5.9.1)
     multi_json (1.12.1)
@@ -40,6 +42,7 @@ GEM
       tool (~> 0.2)
     mustermann-grape (0.4.0)
       mustermann (= 0.4.0)
+    oj (2.12.14)
     parser (2.3.1.4)
       ast (~> 2.2)
     powerpack (0.1.1)
@@ -74,6 +77,11 @@ GEM
       ruby-progressbar (~> 1.7)
       unicode-display_width (~> 1.0, >= 1.0.1)
     ruby-progressbar (1.8.1)
+    simplecov (0.12.0)
+      docile (~> 1.1.0)
+      json (>= 1.8, < 3)
+      simplecov-html (~> 0.10.0)
+    simplecov-html (0.10.0)
     thread_safe (0.3.5)
     tool (0.2.3)
     tzinfo (1.2.2)
@@ -93,6 +101,7 @@ DEPENDENCIES
   bundler
   grape
   jwt
+  oj (~> 2.12.14)
   puma
   rack-cors
   rack-test
@@ -100,6 +109,7 @@ DEPENDENCIES
   rollbar
   rspec
   rubocop
+  simplecov
 
 RUBY VERSION
    ruby 2.3.1p112
