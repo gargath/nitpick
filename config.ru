@@ -29,5 +29,4 @@ end
 
 use RollbarInterceptor
 
-headers = { 'Content-Type' => 'text/html', 'Content-Length' => '9' }
-run ->(_env) { [404, headers, ['Not Found']] }
+run ->(_env) { [302, {'Location' => '/web/'}, []] }
