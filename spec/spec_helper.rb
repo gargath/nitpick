@@ -2,7 +2,7 @@
 require 'simplecov'
 require 'rack/test'
 SimpleCov.start
-require './backend/nitpick_api.rb'
-require './backend/status/status_api.rb'
-require './backend/authorization/auth_api.rb'
+require './backend/api/nitpick_api.rb'
+require './backend/api/status/status_api.rb'
+require './backend/api/authorization/auth_api.rb'
 require './backend/middleware/jwt_validator.rb'

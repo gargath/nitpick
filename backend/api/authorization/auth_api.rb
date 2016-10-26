@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require 'grape'
 require 'jwt'
-require_relative '../middleware/jwt_validator.rb'
+require_relative '../../middleware/jwt_validator.rb'
 
 module Nitpick
   # API for handling authentication and auth validation
