@@ -5,7 +5,10 @@ describe Nitpick::StatusAPI do
   include Rack::Test::Methods
 
   def app
-    Nitpick::StatusAPI
+    Rack::Builder.new do
+      use AppLogger
+      run Nitpick::StatusAPI
+    end.to_app
   end
 
   context 'GET /status/v1/ping' do

@@ -5,7 +5,10 @@ describe Nitpick::API do
   include Rack::Test::Methods
 
   def app
-    Nitpick::API
+    Rack::Builder.new do
+      use AppLogger
+      run Nitpick::API
+    end.to_app
   end
 
   context 'GET /v1/users' do

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 require 'grape'
-
+require_relative '../log_helper'
 module Nitpick
   # API for querying system status
   class StatusAPI < Grape::API
@@ -9,17 +9,14 @@ module Nitpick
     version 'v1', using: :path
     default_format :json
 
-    helpers do
-      def logger
-        API.logger
-      end
-    end
+    helpers LogHelper
 
     get :status do
       { status: 'operational' }
     end
 
     get :ping do
+      logger.info('Pingpong')
       'pong'
     end
   end

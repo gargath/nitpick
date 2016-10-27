@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 require 'grape'
-require 'securerandom'
 require_relative './status/status_api.rb'
 require_relative './authorization/auth_api.rb'
+require_relative './log_helper.rb'
 
 module Nitpick
   # The main API class
@@ -14,11 +14,7 @@ module Nitpick
     version 'v1', using: :path
     default_format :json
 
-    helpers do
-      def logger
-        API.logger
-      end
-    end
+    helpers LogHelper
 
     get :users do
       [

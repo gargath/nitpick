@@ -5,7 +5,10 @@ describe Nitpick::AuthAPI do
   include Rack::Test::Methods
 
   def app
-    Nitpick::AuthAPI
+    Rack::Builder.new do
+      use AppLogger
+      run Nitpick::AuthAPI
+    end.to_app
   end
 
   context 'when missing parameter' do
