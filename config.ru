@@ -2,6 +2,7 @@
 #\ -s puma
 require 'active_record'
 require 'erb'
+require 'resque'
 require 'rack/cors'
 require 'rollbar'
 require './backend/api/nitpick_api.rb'
@@ -25,6 +26,15 @@ module Rack
   end
 end
 
+class TestJob
+ @queue = :test_queue
+
+ def self.perform
+  puts "Job done!"
+ end
+end
+
+
 Rollbar.configure do |config|
   config.access_token = '8e4c44565fd5499597a641000a3181d2'
   config.enabled = false unless ENV['RACK_ENV'] == 'production'
@@ -44,6 +54,7 @@ map '/api' do
   environment = ENV['ENV'] || 'dev'
   db_config = YAML.load(ERB.new(File.read('./config/database.yml')).result)
   ActiveRecord::Base.establish_connection db_config[environment]
+  Resque.redis = Redis.new(host: 'localhost', port: 6379, thread_safe: true)
   use ActiveRecord::ConnectionAdapters::ConnectionManagement
   use RequestIdGenerator
   use JWTValidator
