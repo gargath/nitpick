@@ -27,6 +27,15 @@ module Rack
   end
 end
 
+class TestJob
+ @queue = :test_queue
+
+ def self.perform
+  puts "Job done!"
+ end
+end
+
+
 Rollbar.configure do |config|
   config.access_token = '8e4c44565fd5499597a641000a3181d2'
   config.enabled = false unless ENV['RACK_ENV'] == 'production'
@@ -43,11 +52,15 @@ end
 use AppLogger
 
 map '/api' do
+<<<<<<< e48fd85c75bb2f365b3836f615f7005e48254ed5
   environment = ENV['ENV'] || 'dev'
   db_config = YAML.load(ERB.new(File.read('./config/database.yml')).result)
   ActiveRecord::Base.establish_connection db_config[environment]
   Resque.redis = Redis.new(url: ENV['REDIS_URL'], thread_safe: true)
   use ActiveRecord::ConnectionAdapters::ConnectionManagement
+=======
+  Resque.redis = Redis.new(host: 'localhost', port: 6379, thread_safe: true)
+>>>>>>> Add resque poc and test
   use RequestIdGenerator
   use JWTValidator
   run Nitpick::API
