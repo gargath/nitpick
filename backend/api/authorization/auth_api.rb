@@ -24,10 +24,12 @@ module Nitpick
       username = params[:username]
       password = params[:password]
 
-      error! 'Required Parameter Missing', 422 unless username && password
-
-      logger.info "Login request from user #{params[:username]}"
+      unless username && password
+        logger.error format("Missing parameter in login request: #{params.to_json}")
+        error! 'Required Parameter Missing', 422 unless username && password
+      end
       if params[:password] == 'pass'
+        logger.info format("Successful login request from user #{params[:username]}")
         status 200
         { authtoken: JWT.encode(
           { username: params[:username], password: params[:password] },
@@ -35,6 +37,7 @@ module Nitpick
           'HS256'
         ) }
       else
+        logger.info format("Failed login request from user #{params[:username]}")
         error! 'Unrecognized Credentials', 403
       end
     end

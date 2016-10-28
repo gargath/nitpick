@@ -16,7 +16,7 @@ module Nitpick
     end
 
     get :ping do
-      logger.info('Pingpong')
+      logger.info(format('Pingpong'))
       'pong'
     end
   end
