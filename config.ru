@@ -26,15 +26,6 @@ module Rack
   end
 end
 
-class TestJob
- @queue = :test_queue
-
- def self.perform
-  puts "Job done!"
- end
-end
-
-
 Rollbar.configure do |config|
   config.access_token = '8e4c44565fd5499597a641000a3181d2'
   config.enabled = false unless ENV['RACK_ENV'] == 'production'
