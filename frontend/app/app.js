@@ -9,6 +9,7 @@ angular.module('myApp', [
   'myApp.view2',
   'myApp.version',
   'myApp.modal',
+  'myApp.users',
   'ui.bootstrap',
   'restangular'
 ]).config(['$locationProvider', '$routeProvider', 'RestangularProvider', function ($locationProvider, $routeProvider, RestangularProvider) {
@@ -18,7 +19,7 @@ angular.module('myApp', [
 
   RestangularProvider.setBaseUrl('/api/v1');
 
-  var refreshAccessToken = function() {
+  var refreshAccessToken = function () {
     var deferred = $q.defer();
 
     deferred.reject("Unauthorized!");
