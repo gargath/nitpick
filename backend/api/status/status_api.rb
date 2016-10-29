@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 require 'grape'
-require 'pp'
 require_relative '../log_helper'
 module Nitpick
   # API for querying system status
