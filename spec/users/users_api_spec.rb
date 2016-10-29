@@ -15,7 +15,6 @@ describe Nitpick::UsersAPI do
 
   before do
     environment = 'test'
-    puts environment
     db_config = YAML.load(File.read('./config/database.yml'))
     ActiveRecord::Base.establish_connection db_config[environment]
     if ActiveRecord::Migrator.needs_migration?

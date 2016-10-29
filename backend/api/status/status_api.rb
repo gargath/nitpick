@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 require 'grape'
+require 'pp'
 require_relative '../log_helper'
 module Nitpick
   # API for querying system status
@@ -12,7 +13,19 @@ module Nitpick
     helpers LogHelper
 
     get :status do
-      { status: 'operational' }
+      error! 'Requires Login', 403 unless env['nitpick_token']
+      response = { status: 'operational' }
+      e = []
+      ENV.each do |name, value|
+        e << { name => value }
+      end
+      response['environment'] = e
+      e = []
+      env.each do |name, value|
+        e << { name => value.to_s }
+      end
+      response['rack_environment'] = e
+      response
     end
 
     get :ping do
