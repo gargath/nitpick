@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 #\ -s puma
 require 'active_record'
+require 'erb'
 require 'rack/cors'
 require 'rollbar'
 require './backend/api/nitpick_api.rb'
@@ -35,7 +36,7 @@ use AppLogger
 
 map '/api' do
   environment = ENV['ENV'] || 'dev'
-  db_config = YAML.load(File.read('./config/database.yml'))
+  db_config = YAML.load(ERB.new(File.read('./config/database.yml')).result)
   ActiveRecord::Base.establish_connection db_config[environment]
   use ActiveRecord::ConnectionAdapters::ConnectionManagement
   use RequestIdGenerator

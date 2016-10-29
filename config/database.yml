@@ -17,9 +17,4 @@ dev:
 production:
   adapter: postgresql
   encoding: unicode
-  database: nitpick
-  host: st
-  port: 12345
-  pool: 5
-  username: nitpick
-  password: nitpick
+  url: <%= ENV['DATABASE_URL'] %>
