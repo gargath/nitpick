@@ -4,4 +4,3 @@ tmp
 .DS_Store
 node_modules
 coverage/**/*
-db/schema.rb
