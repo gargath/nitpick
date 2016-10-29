@@ -9,7 +9,7 @@ describe JWTValidator do
     Rack::Builder.new do
       use AppLogger
       use JWTValidator
-      run ->(env) { [200, {}, env['nitpick_token']] }
+      run ->(env) { [200, {}, env['nitpick_token'][0].to_json] }
     end.to_app
   end
 
@@ -40,7 +40,7 @@ describe JWTValidator do
 
   context 'when using a valid token'
   it 'should add the token to the env' do
-    payload = '{ "username" => "username", "password" => "password" }'
+    payload = { 'username' => 'username', 'password' => 'password' }
     token = JWT.encode(
       payload,
       @secret,
@@ -49,7 +49,7 @@ describe JWTValidator do
     header 'Authorization', token
     get '/'
     expect(last_response.status).to eq(200)
-    expect(last_response.body).to eq(payload.+'{"typ"=>"JWT", "alg"=>"HS256"}')
+    expect(JSON.parse(last_response.body)).to eq(payload)
     expect(last_response.headers['X-JWT-ERROR']).to be_nil
   end
 end

@@ -14,3 +14,10 @@ gem 'rubocop', groups: [:development, :test]
 gem 'rollbar'
 gem 'oj', '~> 2.12.14'
 gem 'simplecov', group: :test
+gem 'resque'
+gem 'fakeredis', group: :test
+gem 'sinatra', github: 'sinatra/sinatra', branch: 'master'
+gem 'sqlite3', group: :test
+gem 'pg', groups: [:development, :production]
+gem 'activesupport'
+gem 'activerecord', '< 5.0'

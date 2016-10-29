@@ -1,11 +1,24 @@
 # frozen_string_literal: true
-require 'rollbar/rake_tasks'
+require 'resque/tasks'
+require 'bundler/setup'
+require 'active_record'
+# Remember to require here the file containing any Resque classes so that workers can find them.
+
+include ActiveRecord::Tasks
+
+db_dir = File.expand_path('../db', __FILE__)
+config_dir = File.expand_path('../config', __FILE__)
 
 begin
   require 'rspec/core/rake_task'
   RSpec::Core::RakeTask.new(:spec)
 rescue LoadError
 end
+
+DatabaseTasks.env = ENV['ENV'] || 'dev'
+DatabaseTasks.db_dir = db_dir
+DatabaseTasks.database_configuration = YAML.load(File.read(File.join(config_dir, 'database.yml')))
+DatabaseTasks.migrations_paths = File.join(db_dir, 'migrate')
 
 desc 'Run all Tests'
 task default: [:rubocop, :spec, :karma]
@@ -24,7 +37,8 @@ task :karma do
 end
 
 task :environment do
-  Rollbar.configure do |config|
-    config.access_token = '8e4c44565fd5499597a641000a3181d2'
-  end
+  ActiveRecord::Base.configurations = DatabaseTasks.database_configuration
+  ActiveRecord::Base.establish_connection DatabaseTasks.env.to_sym
 end
+
+load 'active_record/railties/databases.rake'

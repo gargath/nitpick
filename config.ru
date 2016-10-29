@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 #\ -s puma
+require 'active_record'
 require 'rack/cors'
 require 'rollbar'
 require './backend/api/nitpick_api.rb'
@@ -33,6 +34,10 @@ end
 use AppLogger
 
 map '/api' do
+  environment = ENV['ENV'] || 'dev'
+  db_config = YAML.load(File.read('./config/database.yml'))
+  ActiveRecord::Base.establish_connection db_config[environment]
+  use ActiveRecord::ConnectionAdapters::ConnectionManagement
   use RequestIdGenerator
   use JWTValidator
   run Nitpick::API
