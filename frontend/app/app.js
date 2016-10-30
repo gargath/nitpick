@@ -23,24 +23,5 @@ angular.module('myApp', [
       controllerAs: '$ctrl'
     }).otherwise({redirectTo: '/view1'});
 
-  RestangularProvider.setBaseUrl('/api/v1');
-
-  var refreshAccessToken = function () {
-    var deferred = $q.defer();
-
-    deferred.reject("Unauthorized!");
-    return deferred.promise;
-  };
-
-  RestangularProvider.setErrorInterceptor(function (response, deferred, responseHandler) {
-    if (response.status === 404) {
-      refreshAccessToken().then(function () {
-        $http(response.config).then(responseHandler, deferred.reject);
-      });
-
-      return false; // error handled
-    }
-
-    return true; // error not handled
-  });
+  RestangularProvider.setBaseUrl('/api');
 }]);
