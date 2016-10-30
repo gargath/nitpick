@@ -1,31 +1,35 @@
-<div ng-controller="View1Ctrl as $ctrl">
-  <div class="container">
-    <div class="header clearfix">
-      <nav>
-        <ul class="nav nav-pills pull-right">
-          <li role="presentation" class="active"><a href="#">Home</a></li>
-          <li role="presentation"><a href="#">About us...</a></li>
-        </ul>
-      </nav>
-      <h3 class="text-muted">Nitpick 1.0</h3>
-    </div>
+<div class="container">
+  <div class="header clearfix">
+    <nav>
+      <ul class="nav nav-pills pull-right">
+        <li role="presentation" class="active"><a href="#">Home</a></li>
+        <li role="presentation"><a href="#">About us...</a></li>
+      </ul>
+    </nav>
+    <h3 class="text-muted">Nitpick 1.0</h3>
+  </div>
 
-    <div class="jumbotron">
-      <h1>Nitpick Home...</h1>
-      <p class="lead">Now with more features, more snazzy icons, and lots more blood, sweat and tears!</p>
-      <p><a class="btn btn-lg btn-success" href="#" ng-click="$ctrl.signupModal()" role="button">Sign up now!</a></p>
-    </div>
+  <script type="text/ng-template" id="alert.html">
+    <div ng-transclude></div>
+  </script>
 
-    <div class="row">
-      <div class="col-lg-6">
-        <h4>Why work on Nitpick? Join all these other
-          <del>suckers</del>
-          contributors:
-        </h4>
-        <ul ng-repeat="user in allUsers">
-          <li>{{user.firstname}} {{user.lastname}}</li>
-        </ul>
-      </div>
+  <div uib-alert ng-repeat="alert in $ctrl.alerts.getAlerts()" ng-class="'alert-' + (alert.type || 'warning')" close="$ctrl.alerts.closeAlert($index)">
+    {{alert.msg}}
+  </div>
+
+  <div class="jumbotron">
+    <h1>Nitpick Home...</h1>
+    <p class="lead">Now with more features, more snazzy icons, and lots more blood, sweat and tears!</p>
+    <p><a class="btn btn-lg btn-success" href="#" ng-click="$ctrl.signupModal()" role="button">Sign up now!</a></p>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-6">
+      <h4>Why work on Nitpick? Join all these other <del>suckers</del> contributors:
+      </h4>
+      <ul ng-repeat="user in allUsers">
+        <li>{{user.firstname}} {{user.lastname}}</li>
+      </ul>
     </div>
   </div>
 </div>

@@ -10,12 +10,18 @@ angular.module('myApp', [
   'myApp.version',
   'myApp.modal',
   'myApp.users',
+  'myApp.alerts',
   'ui.bootstrap',
   'restangular'
 ]).config(['$locationProvider', '$routeProvider', 'RestangularProvider', function ($locationProvider, $routeProvider, RestangularProvider) {
   $locationProvider.hashPrefix('!');
 
-  $routeProvider.otherwise({redirectTo: '/view1'});
+  $routeProvider
+    .when('/view1', {
+      templateUrl: 'view1/view1.html',
+      controller: 'View1Ctrl',
+      controllerAs: '$ctrl'
+    }).otherwise({redirectTo: '/view1'});
 
   RestangularProvider.setBaseUrl('/api/v1');
 
