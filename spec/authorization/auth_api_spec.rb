@@ -12,10 +12,10 @@ describe Nitpick::AuthAPI do
   end
 
   context 'when missing parameter' do
-    it 'responds with 422' do
+    it 'responds with 400' do
       data = { 'username': 'user' }
       post '/auth/v1/login', data
-      expect(last_response.status).to eq(422)
+      expect(last_response.status).to eq(400)
     end
   end
 

@@ -18,7 +18,9 @@ end
 
 DatabaseTasks.env = ENV['ENV'] || 'dev'
 DatabaseTasks.db_dir = db_dir
-DatabaseTasks.database_configuration = YAML.load(ERB.new(File.read(File.join(config_dir, 'database.yml'))).result)
+DatabaseTasks.database_configuration = YAML.load(ERB.new(
+  File.read(File.join(config_dir, 'database.yml'))
+).result)
 DatabaseTasks.migrations_paths = File.join(db_dir, 'migrate')
 
 desc 'Run all Tests'

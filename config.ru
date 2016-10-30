@@ -11,8 +11,9 @@ require './backend/middleware/request_id_generator.rb'
 require './backend/middleware/app_logger.rb'
 
 puts
-puts 'WARNING: Installing bcrypt gem\'s native extensions is currently broken on Windows.
-If running on Windows, please quit now and run devkitvars.bar, then make, make install in \bcrypt-3.1.7-x86-mingw32\ext\mri'
+puts "WARNING: Installing bcrypt gem's native extensions is currently broken on Windows.
+If running on Windows, please quit now and run devkitvars.bar, \
+then make, make install in \\bcrypt-3.1.7-x86-mingw32\\ext\\mri"
 puts
 
 module Rack

@@ -7,7 +7,6 @@ require_relative '../auth_helper.rb'
 module Nitpick
   # API for querying system status
   class UsersAPI < Grape::API
-
     include BCrypt
 
     prefix 'users'
@@ -26,13 +25,18 @@ module Nitpick
       end
     end
     post '/' do
-      u =  declared(params)[:user]
+      u = declared(params)[:user]
       error! "User '#{u[:username]}' already exists", 409 if User.exists?(username: u[:username])
-      new_user = User.create({username: u[:username], email: u[:email], password: Password.create(u[:password]), status: 0})
+      new_user = User.create(username: u[:username],
+                             email: u[:email],
+                             password: Password.create(u[:password]),
+                             status: 0)
       begin
         new_user.save
       rescue ActiveRecordError => e
-        Rollbar.error('ActiveRecordError while trying to save new user', e, { username: u[:username], request_id: env['request_id'] })
+        Rollbar.error('ActiveRecordError while trying to save new user',
+                      e,
+                      username: u[:username], request_id: env['request_id'])
         error! 'Failed to persist new user', 500
       end
       { id: new_user.id, username: new_user.username, email: new_user.email }

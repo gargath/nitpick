@@ -2,6 +2,7 @@
 require 'active_record'
 require 'bcrypt'
 
+# ActiveRecord class representing a user of the system
 class User < ActiveRecord::Base
   include BCrypt
 

@@ -37,7 +37,7 @@ describe Nitpick::UsersAPI do
       expect(last_response.status).to eq(403)
     end
     it 'returns the test user when authenticated' do
-      post '/auth/v1/login', { 'username' => 'admin', 'password' => 'pass' }
+      post '/auth/v1/login', 'username' => 'admin', 'password' => 'pass'
       token = JSON.parse(last_response.body)['authtoken']
       header 'Authorization', token
       get '/users/v1/'
@@ -48,19 +48,25 @@ describe Nitpick::UsersAPI do
 
   context 'when adding a user' do
     it 'responds 400 if a parameter is missing' do
-      post '/users/v1/', { 'username' => 'newuser', 'password' => 'pass' }
+      post '/users/v1/', 'username' => 'newuser', 'password' => 'pass'
       expect(last_response.status).to be(400)
     end
     it 'creates a new user entry in the database if data is valid' do
-      post '/users/v1/', { 'user' => { 'username' => 'newuser', 'password' => 'pass', 'email' => 'email@example.com' } }
+      post '/users/v1/', 'user' => { 'username' => 'newuser',
+                                     'password' => 'pass',
+                                     'email' => 'email@example.com' }
       expect(last_response.status).to eq(201)
       resp = JSON.parse(last_response.body)
       expect(resp['id']).not_to be_nil
       expect(User.exists?(resp['id'])).to be_truthy
     end
     it 'return 409 if a username is already taken' do
-      post '/users/v1/', { 'user' => { 'username' => 'newuser', 'password' => 'pass', 'email' => 'email@example.com' } }
-      post '/users/v1/', { 'user' => { 'username' => 'newuser', 'password' => 'pass', 'email' => 'email@example.com' } }
+      post '/users/v1/', 'user' => { 'username' => 'newuser',
+                                     'password' => 'pass',
+                                     'email' => 'email@example.com' }
+      post '/users/v1/', 'user' => { 'username' => 'newuser',
+                                     'password' => 'pass',
+                                     'email' => 'email@example.com' }
       expect(last_response.status).to eq(409)
     end
   end

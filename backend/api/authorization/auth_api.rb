@@ -15,19 +15,15 @@ module Nitpick
 
     helpers LogHelper
 
+    params do
+      requires :username, type: String
+      requires :password, type: String
+    end
     post :login do
-      params do
-        requires :username, type: String
-        requires :password, type: String
-      end
 
       username = params[:username]
       password = params[:password]
 
-      unless username && password
-        logger.error format("Missing parameter in login request: #{params.to_json}")
-        error! 'Required Parameter Missing', 422 unless username && password
-      end
       if params[:password] == 'pass'
         logger.info format("Successful login request from user #{params[:username]}")
         status 200
