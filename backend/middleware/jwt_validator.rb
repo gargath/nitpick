@@ -15,7 +15,7 @@ class JWTValidator
     if token
       begin
         decode = JWT.decode token, JWT_SECRET
-        env['nitpick_token'] = decode
+        env['nitpick_token'] = decode[0]
       rescue JWT::VerificationError
         logger.error("[#{env['request_id']} - Invalid Signature}]")
         return Rack::Response.new(

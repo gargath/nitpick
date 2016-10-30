@@ -9,7 +9,7 @@ describe JWTValidator do
     Rack::Builder.new do
       use AppLogger
       use JWTValidator
-      run ->(env) { [200, {}, env['nitpick_token'][0].to_json] }
+      run ->(env) { [200, {}, env['nitpick_token'].to_json] }
     end.to_app
   end
 
