@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 require 'grape'
-require_relative '../log_helper'
+require_relative '../log_helper.rb'
+require_relative '../auth_helper.rb'
+
 module Nitpick
   # API for querying system status
   class StatusAPI < Grape::API
@@ -10,9 +12,10 @@ module Nitpick
     default_format :json
 
     helpers LogHelper
+    helpers AuthHelper
 
     get :status do
-      error! 'Requires Login', 403 unless env['nitpick_token']
+      authenticate!
       response = { status: 'operational' }
       e = []
       ENV.each do |name, value|

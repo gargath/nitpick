@@ -32,7 +32,7 @@ module Nitpick
         logger.info format("Successful login request from user #{params[:username]}")
         status 200
         { authtoken: JWT.encode(
-          { username: params[:username], password: params[:password], timestamp: Time.now.to_i },
+          { username: params[:username], timestamp: Time.now.to_i },
           HMAC_SECRET,
           'HS256'
         ) }
