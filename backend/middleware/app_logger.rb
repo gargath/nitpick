@@ -5,6 +5,12 @@ class AppLogger
   def initialize(app)
     @app = app
     @logger = Logger.new(STDOUT)
+    case ENV['RACK_env']
+      when 'production'
+        @logger.level = Logger::INFO
+      else
+        @logger.level = Logger::DEBUG
+    end
     @logger.formatter = proc do |severity, datetime, _progname, msg|
       date_format = datetime.strftime('%Y-%m-%d %H:%M:%S')
       if severity == 'INFO' || severity == 'WARN'
@@ -13,7 +19,7 @@ class AppLogger
         "[#{date_format}] #{severity} #{msg}\n"
       end
     end
-    @logger.info('Log Injector initialized')
+    @logger.info("Log Injector initialized with log level #{@logger.level}")
   end
 
   def call(env)
