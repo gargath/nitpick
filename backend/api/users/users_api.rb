@@ -56,5 +56,17 @@ module Nitpick
       end
       response
     end
+
+    get ':id' do
+      authenticate!
+      begin
+        user = User.find(params[:id])
+      rescue ActiveRecord::RecordNotFound
+        error!({ 'error' => 'No such user' }, 404)
+      end
+      logger.info format("Request for user #{params[:id]}")
+      puts user.inspect
+      user
+    end
   end
 end

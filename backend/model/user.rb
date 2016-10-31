@@ -6,9 +6,6 @@ require 'bcrypt'
 class User < ActiveRecord::Base
   include BCrypt
 
-  attr_accessor :name
-  attr_accessor :email
-
   def password
     @password ||= Password.new(password_hash)
   end
@@ -16,5 +13,9 @@ class User < ActiveRecord::Base
   def password=(new_password)
     @password = Password.create(new_password)
     self.password_hash = @password
+  end
+
+  def to_json
+    { username: username, email: email }.to_json
   end
 end

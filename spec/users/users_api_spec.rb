@@ -25,6 +25,7 @@ describe Nitpick::UsersAPI do
     user = User.create
     user.username = 'testuser'
     user.save
+    @user_id = user.id
     Resque.redis = Redis.new
   end
 
@@ -45,6 +46,28 @@ describe Nitpick::UsersAPI do
       get '/users/v1/'
       expect(last_response.status).to eq(200)
       expect(JSON.parse(last_response.body)).to eq([{ 'id' => 1, 'username' => 'testuser' }])
+    end
+  end
+
+  context 'when asked for a specific user' do
+    it 'responds with the user details in case of valid id' do
+      post '/auth/v1/login', 'username' => 'admin', 'password' => 'pass'
+      token = JSON.parse(last_response.body)['authtoken']
+      header 'Authorization', token
+      get "/users/v1/#{@user_id}"
+      expect(last_response.status).to eq(200)
+      expect(JSON.parse(last_response.body)['username']).to eq('testuser')
+    end
+    it 'responds 404 if invalid id' do
+      post '/auth/v1/login', 'username' => 'admin', 'password' => 'pass'
+      token = JSON.parse(last_response.body)['authtoken']
+      header 'Authorization', token
+      get '/users/v1/999'
+      expect(last_response.status).to eq(404)
+    end
+    it 'refuses access without login' do
+      get "/users/v1/#{@user_id}"
+      expect(last_response.status).to eq(403)
     end
   end
 
