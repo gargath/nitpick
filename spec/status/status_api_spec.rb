@@ -14,10 +14,6 @@ describe Nitpick::StatusAPI do
     end.to_app
   end
 
-  # before do
-  # Resque.redis = Redis.new
-  # end
-
   context 'when pinged' do
     it 'says responds pong' do
       get '/status/v1/ping'

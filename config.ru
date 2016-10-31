@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 #\ -s puma
 require 'active_record'
+require 'redis'
 require 'erb'
 require 'resque'
 require 'rack/cors'
@@ -45,7 +46,7 @@ map '/api' do
   environment = ENV['ENV'] || 'dev'
   db_config = YAML.load(ERB.new(File.read('./config/database.yml')).result)
   ActiveRecord::Base.establish_connection db_config[environment]
-  Resque.redis = Redis.new(host: 'localhost', port: 6379, thread_safe: true)
+  Resque.redis = Redis.new(host: '127.0.0.1', port: 6379, thread_safe: true)
   use ActiveRecord::ConnectionAdapters::ConnectionManagement
   use RequestIdGenerator
   use JWTValidator

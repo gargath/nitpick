@@ -30,7 +30,7 @@ module Nitpick
         ) }
       else
         logger.info format("Failed login request from user #{params[:username]}")
-        error! 'Unrecognized Credentials', 403
+        error!({ 'error' => 'Unrecognized Credentials' }, 403)
       end
     end
   end

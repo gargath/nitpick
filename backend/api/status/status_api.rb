@@ -28,12 +28,8 @@ module Nitpick
         e << { name => value.to_s }
       end
       response['rack_environment'] = e
+      response['resque_info'] = Resque.info
       response
-      # logger.info('enqueueing')
-      # enqueued = Resque.enqueue(TestJob)
-      # logger.info(enqueued ? 'true' : 'false')
-      # logger.info(Resque.info)
-      # { status: 'operational' }
     end
 
     get :ping do

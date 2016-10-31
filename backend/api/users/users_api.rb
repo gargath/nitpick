@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 require 'grape'
 require 'bcrypt'
+require 'resque'
 require_relative '../log_helper.rb'
 require_relative '../auth_helper.rb'
 
@@ -26,7 +27,7 @@ module Nitpick
     end
     post '/' do
       u = declared(params)[:user]
-      error! "User '#{u[:username]}' already exists", 409 if User.exists?(username: u[:username])
+      error!({ 'error' => "User '#{u[:username]}' already exists" }, 409) if User.exists?(username: u[:username])
       new_user = User.create(username: u[:username],
                              email: u[:email],
                              password: Password.create(u[:password]),
@@ -37,7 +38,12 @@ module Nitpick
         Rollbar.error('ActiveRecordError while trying to save new user',
                       e,
                       username: u[:username], request_id: env['request_id'])
-        error! 'Failed to persist new user', 500
+        error!({ 'error' => "Failed to persist new user #{new_user.username} (#{new_user.id})" }, 500)
+      end
+      logger.info format("New user #{new_user.username} created.")
+      unless Resque.enqueue(VerificationEmailJob, new_user.username, new_user.email)
+        logger.error format("Failed to enqueue email verification job for #{new_user.username}!")
+        Rollbar.error('Resque.enqueue returned false on EmailVerificationJob', new_user.username, new_user.email)
       end
       { id: new_user.id, username: new_user.username, email: new_user.email }
     end

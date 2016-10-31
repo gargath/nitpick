@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 require 'active_record'
+require 'fakeredis'
 require 'spec_helper'
 
 describe Nitpick::UsersAPI do
@@ -24,6 +25,7 @@ describe Nitpick::UsersAPI do
     user = User.create
     user.username = 'testuser'
     user.save
+    Resque.redis = Redis.new
   end
 
   after do
@@ -51,7 +53,7 @@ describe Nitpick::UsersAPI do
       post '/users/v1/', 'username' => 'newuser', 'password' => 'pass'
       expect(last_response.status).to be(400)
     end
-    it 'creates a new user entry in the database if data is valid' do
+    it 'creates a new user entry in the database and enqueues a verification email' do
       post '/users/v1/', 'user' => { 'username' => 'newuser',
                                      'password' => 'pass',
                                      'email' => 'email@example.com' }
@@ -59,6 +61,7 @@ describe Nitpick::UsersAPI do
       resp = JSON.parse(last_response.body)
       expect(resp['id']).not_to be_nil
       expect(User.exists?(resp['id'])).to be_truthy
+      expect(Resque.peek('email_job', 0, 5).length).to eq(1)
     end
     it 'return 409 if a username is already taken' do
       post '/users/v1/', 'user' => { 'username' => 'newuser',
