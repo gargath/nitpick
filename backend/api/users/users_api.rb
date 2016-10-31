@@ -65,7 +65,6 @@ module Nitpick
         error!({ 'error' => 'No such user' }, 404)
       end
       logger.info format("Request for user #{params[:id]}")
-      puts user.inspect
       user
     end
   end

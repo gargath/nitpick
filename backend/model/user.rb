@@ -15,7 +15,18 @@ class User < ActiveRecord::Base
     self.password_hash = @password
   end
 
+  def user_status
+    case status
+      when 0
+        'NEW'
+      when 1
+        'VERIFIED'
+      else
+        'UNKNOWN'
+    end
+  end
+
   def to_json
-    { username: username, email: email }.to_json
+    { username: username, email: email, status: user_status }.to_json
   end
 end
