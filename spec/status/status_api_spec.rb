@@ -14,9 +14,9 @@ describe Nitpick::StatusAPI do
     end.to_app
   end
 
-#  before do
-#    Resque.redis = Redis.new
-#  end
+  # before do
+  # Resque.redis = Redis.new
+  # end
 
   context 'when pinged' do
     it 'says responds pong' do
@@ -42,8 +42,8 @@ describe Nitpick::StatusAPI do
       expect(response['status']).to eq 'operational'
       expect(response['environment'].length).to be > 0
       expect(response['rack_environment'].length).to be > 0
-#      expect(JSON.parse(last_response.body)['status']).to eq 'operational'
-#      expect(Resque.peek('test_queue', 0, 5).length).to eq(1)
+      # expect(JSON.parse(last_response.body)['status']).to eq 'operational'
+      # expect(Resque.peek('test_queue', 0, 5).length).to eq(1)
     end
   end
 end

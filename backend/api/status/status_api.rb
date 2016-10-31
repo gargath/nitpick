@@ -2,7 +2,7 @@
 require 'grape'
 require_relative '../log_helper.rb'
 require_relative '../auth_helper.rb'
-#require 'resque'
+# require 'resque'
 
 module Nitpick
   # API for querying system status
@@ -29,11 +29,11 @@ module Nitpick
       end
       response['rack_environment'] = e
       response
-#      logger.info('enqueueing')
-#      enqueued = Resque.enqueue(TestJob)
-#      logger.info(enqueued ? 'true' : 'false')
-#      logger.info(Resque.info)
-#      { status: 'operational' }
+      # logger.info('enqueueing')
+      # enqueued = Resque.enqueue(TestJob)
+      # logger.info(enqueued ? 'true' : 'false')
+      # logger.info(Resque.info)
+      # { status: 'operational' }
     end
 
     get :ping do

@@ -20,10 +20,6 @@ module Nitpick
       requires :password, type: String
     end
     post :login do
-
-      username = params[:username]
-      password = params[:password]
-
       if params[:password] == 'pass'
         logger.info format("Successful login request from user #{params[:username]}")
         status 200
