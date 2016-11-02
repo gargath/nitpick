@@ -22,3 +22,4 @@ gem 'pg', groups: [:development, :production]
 gem 'activesupport'
 gem 'activerecord', '< 5.0'
 gem 'bcrypt', '~> 3.1.11'
+gem 'foreman'

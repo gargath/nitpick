@@ -1,9 +1,13 @@
 # frozen_string_literal: true
 require 'grape'
 require 'bcrypt'
+require 'securerandom'
 require 'resque'
 require_relative '../log_helper.rb'
 require_relative '../auth_helper.rb'
+require_relative '../../model/user_validation.rb'
+require_relative '../../model/user.rb'
+require_relative '../../jobs/verification_job.rb'
 
 module Nitpick
   # API for querying system status
@@ -28,10 +32,15 @@ module Nitpick
     post '/' do
       u = declared(params)[:user]
       error!({ 'error' => "User '#{u[:username]}' already exists" }, 409) if User.exists?(username: u[:username])
+      # TODO: Check if email already exists and reject if so
       new_user = User.create(username: u[:username],
                              email: u[:email],
                              password: Password.create(u[:password]),
                              status: 0)
+      validation = UserValidation.create(created_at: Time.now,
+                                         token: SecureRandom.base64(32)
+      )
+      new_user.user_validation = validation
       begin
         new_user.save
       rescue ActiveRecordError => e
@@ -41,7 +50,7 @@ module Nitpick
         error!({ 'error' => "Failed to persist new user #{new_user.username} (#{new_user.id})" }, 500)
       end
       logger.info format("New user #{new_user.username} created.")
-      unless Resque.enqueue(VerificationEmailJob, new_user.username, new_user.email)
+      unless Resque.enqueue(VerificationEmailJob, new_user.username, new_user.email, new_user.user_validation.token)
         logger.error format("Failed to enqueue email verification job for #{new_user.username}!")
         Rollbar.error('Resque.enqueue returned false on EmailVerificationJob', new_user.username, new_user.email)
       end

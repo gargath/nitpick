@@ -3,7 +3,7 @@ require 'resque/tasks'
 require 'erb'
 require 'bundler/setup'
 require 'active_record'
-require_relative './backend/api/jobs/verification_email_job.rb'
+require_relative './backend/jobs/verification_job.rb'
 # Remember to require here the file containing any Resque classes so that workers can find them.
 
 include ActiveRecord::Tasks
