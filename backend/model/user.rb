@@ -7,7 +7,7 @@ require_relative './user_validation.rb'
 class User < ActiveRecord::Base
   include BCrypt
 
-  has_one :user_validation
+  has_one :user_validation, autosave: true
 
   def password
     @password ||= Password.new(password_hash)

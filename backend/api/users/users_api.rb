@@ -50,7 +50,7 @@ module Nitpick
         error!({ 'error' => "Failed to persist new user #{new_user.username} (#{new_user.id})" }, 500)
       end
       logger.info format("New user #{new_user.username} created.")
-      unless Resque.enqueue(VerificationEmailJob, new_user.username, new_user.email, new_user.user_validation.token)
+      unless Resque.enqueue(VerificationEmailJob, new_user.id, new_user.username, new_user.email, new_user.user_validation.token)
         logger.error format("Failed to enqueue email verification job for #{new_user.username}!")
         Rollbar.error('Resque.enqueue returned false on EmailVerificationJob', new_user.username, new_user.email)
       end
@@ -74,6 +74,28 @@ module Nitpick
         error!({ 'error' => 'No such user' }, 404)
       end
       logger.info format("Request for user #{params[:id]}")
+      user
+    end
+
+    params do
+      requires :validation_token, type: String
+    end
+    put ':id/validationtoken' do
+      begin
+        user = User.find( params[:id])
+      rescue ActiveRecord::RecordNotFound
+        error!({ 'error' => 'No such user' }, 404)
+      end
+      if user.user_status != 'NEW'
+        error!({ 'error' => "User #{p} already verified" }, 409)
+      elsif user.user_validation.token != params[:validation_token]
+        error!({ 'error' => 'Invalid validation token' }, 403)
+      end
+      user.user_validation.completed_at = Time.now
+      logger.debug format("User #{user.username} now has validation completed_at set to #{user.user_validation.completed_at}")
+      user.status = 1
+      user.save
+      status 200
       user
     end
   end
