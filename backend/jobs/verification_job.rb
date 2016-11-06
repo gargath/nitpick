@@ -2,6 +2,7 @@
 require 'uri'
 require 'net/smtp'
 
+# Resque job for emailing verification tokens
 class VerificationEmailJob
   @queue = :verify_user
 
@@ -21,7 +22,7 @@ Subject: Please verify your email
 
 Please verify the email address used to sign up for Nitpick by using the token below.
 
-#{token}
+#{token} / #{user_id}
 MESSAGE_END
 
     mail_uri = URI.parse ENV['SMTP_URL']

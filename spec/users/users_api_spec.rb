@@ -112,7 +112,7 @@ describe Nitpick::UsersAPI do
       expect(last_response.status).to be(400)
     end
     it 'responds with 404 if the user does not exist' do
-      put "/users/v1/#{@new_id+1000}/validationtoken", 'validation_token' => 'stuff'
+      put "/users/v1/#{@new_id + 1000}/validationtoken", 'validation_token' => 'stuff'
       puts last_response.body
       expect(last_response.status).to be(404)
     end
@@ -134,5 +134,4 @@ describe Nitpick::UsersAPI do
       expect(last_response.status).to be(409)
     end
   end
-
 end

@@ -5,12 +5,12 @@ class AppLogger
   def initialize(app)
     @app = app
     @logger = Logger.new(STDOUT)
-    case ENV['RACK_env']
-      when 'production'
-        @logger.level = Logger::INFO
-      else
-        @logger.level = Logger::DEBUG
-    end
+    @logger.level = case ENV['RACK_env']
+                    when 'production'
+                      Logger::INFO
+                    else
+                      Logger::DEBUG
+                    end
     @logger.formatter = proc do |severity, datetime, _progname, msg|
       date_format = datetime.strftime('%Y-%m-%d %H:%M:%S')
       if severity == 'INFO' || severity == 'WARN'

@@ -20,12 +20,12 @@ class User < ActiveRecord::Base
 
   def user_status
     case status
-      when 0
-        'NEW'
-      when 1
-        'VERIFIED'
-      else
-        'UNKNOWN'
+    when 0
+      'NEW'
+    when 1
+      'VERIFIED'
+    else
+      'UNKNOWN'
     end
   end
 
