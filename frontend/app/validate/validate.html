@@ -1,0 +1,14 @@
+<div class="container">
+  You are viewing the validation page.
+
+  <form class="form form-inline" ng-if="!$ctrl.autosubmit">
+    <label for="token">Validation token:</label>
+    <input ng-model="$ctrl.token" id="token" class="form form-control" type="text"/>
+    <button class="btn btn-default" type="submit" ng-click="$ctrl.submit()">Submit</button>
+  </form>
+
+  <div ng-if="$ctrl.submitted">
+    <span ng-if="$ctrl.validated">You are validated!</span>
+    <span ng-if="!$ctrl.validated">The validation token you were provided was invalid or expired.</span>
+  </div>
+</div>

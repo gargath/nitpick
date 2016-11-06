@@ -20,17 +20,18 @@ angular.module('myApp.view1', ['myApp.modal', 'ngRoute', 'ui.bootstrap', 'restan
 
     this.signUp = function (data) {
       // User submitted data will be available in data.name, etc
-      baseUsers.post({name: data.name, email: data.email, password: data.password}).then(function () {
+      baseUsers.post({user: {username: data.name, email: data.email, password: data.password}}).then(function () {
         console.log("New account created");
-      }, function () {
+      }, function (data) {
         alertsService.addAlert("danger", "Sign-up failed. Please try again.");
-        console.log("Error in creating user");
+        console.log("Error in creating user:");
+        console.log(data);
       });
     };
 
     $ctrl.signupModal = function () {
       var modalInstance = modalService.open('signupCtrl', 'view1/signupModal.html');
-      modalInstance.result.then(signUp, function () {
+      modalInstance.result.then($ctrl.signUp, function () {
           // Modal dismissed without submit
         }
       );
@@ -38,7 +39,7 @@ angular.module('myApp.view1', ['myApp.modal', 'ngRoute', 'ui.bootstrap', 'restan
 
     $ctrl.loginModal = function () {
       var modalInstance = modalService.open('signupCtrl', 'view1/loginModal.html');
-      modalInstance.result.then(login,
+      modalInstance.result.then($ctrl.login,
         function () {
           // Modal dismissed without submit
         }

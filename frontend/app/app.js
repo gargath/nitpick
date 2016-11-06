@@ -7,6 +7,7 @@ angular.module('myApp', [
   'ngSanitize',
   'myApp.view1',
   'myApp.view2',
+  'myApp.validate',
   'myApp.version',
   'myApp.modal',
   'myApp.users',
@@ -20,6 +21,11 @@ angular.module('myApp', [
     .when('/view1', {
       templateUrl: 'view1/view1.html',
       controller: 'View1Ctrl',
+      controllerAs: '$ctrl'
+    })
+    .when('/validate', {
+      templateUrl: 'validate/validate.html',
+      controller: 'ValidateCtrl',
       controllerAs: '$ctrl'
     }).otherwise({redirectTo: '/view1'});
 

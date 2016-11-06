@@ -60,5 +60,20 @@ describe('myApp.users module', function () {
         httpBackend.flush();
       });
     });
+    describe('validateUser', function () {
+      it('should be defined', function () {
+        expect(usersService.validateUser).toBeDefined();
+      });
+      it('should return a promise', function () {
+        httpBackend.expectPUT("/api/users/v1/1/validationtoken").respond(function () {
+          return [200, "Validated"];
+        });
+        var promise = usersService.validateUser({id: 1, token: "1234"});
+        promise.then(function (data) {
+          expect(data.data).toEqual("Validated");
+        });
+        httpBackend.flush();
+      })
+    });
   });
 });
