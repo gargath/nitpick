@@ -3,7 +3,12 @@
 # Helper methods for dealing with authorization
 module AuthHelper
   def authenticate!
-    error! 'Requires Login', 403 unless current_user
+    return if current_user
+    logger.info(
+      format("Denying anonymous access to \
+        [#{env['REQUEST_METHOD']} #{env['REQUEST_PATH']}] from #{env['REMOTE_ADDR']}")
+    )
+    error!({ 'error' => 'Requires Login' }, 403)
   end
 
   def current_user

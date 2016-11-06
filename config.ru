@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 #\ -s puma
 require 'active_record'
+require 'redis'
 require 'erb'
+require 'resque'
 require 'rack/cors'
 require 'rollbar'
 require './backend/api/nitpick_api.rb'
@@ -44,6 +46,7 @@ map '/api' do
   environment = ENV['ENV'] || 'dev'
   db_config = YAML.load(ERB.new(File.read('./config/database.yml')).result)
   ActiveRecord::Base.establish_connection db_config[environment]
+  Resque.redis = Redis.new(url: ENV['REDIS_URL'], thread_safe: true)
   use ActiveRecord::ConnectionAdapters::ConnectionManagement
   use RequestIdGenerator
   use JWTValidator

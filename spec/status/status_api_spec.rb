@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 require 'spec_helper'
+require 'resque'
+require 'fakeredis'
 
 describe Nitpick::StatusAPI do
   include Rack::Test::Methods
@@ -36,6 +38,8 @@ describe Nitpick::StatusAPI do
       expect(response['status']).to eq 'operational'
       expect(response['environment'].length).to be > 0
       expect(response['rack_environment'].length).to be > 0
+      # expect(JSON.parse(last_response.body)['status']).to eq 'operational'
+      # expect(Resque.peek('test_queue', 0, 5).length).to eq(1)
     end
   end
 end

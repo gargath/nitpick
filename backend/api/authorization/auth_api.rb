@@ -20,10 +20,6 @@ module Nitpick
       requires :password, type: String
     end
     post :login do
-
-      username = params[:username]
-      password = params[:password]
-
       if params[:password] == 'pass'
         logger.info format("Successful login request from user #{params[:username]}")
         status 200
@@ -34,7 +30,7 @@ module Nitpick
         ) }
       else
         logger.info format("Failed login request from user #{params[:username]}")
-        error! 'Unrecognized Credentials', 403
+        error!({ 'error' => 'Unrecognized Credentials' }, 403)
       end
     end
   end

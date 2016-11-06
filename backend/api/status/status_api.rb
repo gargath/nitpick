@@ -2,6 +2,7 @@
 require 'grape'
 require_relative '../log_helper.rb'
 require_relative '../auth_helper.rb'
+# require 'resque'
 
 module Nitpick
   # API for querying system status
@@ -27,6 +28,7 @@ module Nitpick
         e << { name => value.to_s }
       end
       response['rack_environment'] = e
+      response['resque_info'] = Resque.info
       response
     end
 
