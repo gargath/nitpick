@@ -38,7 +38,7 @@ module Nitpick
                              password: Password.create(u[:password]),
                              status: 0)
       validation = UserValidation.create(created_at: Time.now,
-                                         token: SecureRandom.base64(32)
+                                         token: JWT.encode({ username: new_user.username, user_id: new_user.id, token: SecureRandom.base64(32) }, nil, 'none')
       )
       new_user.user_validation = validation
       begin
