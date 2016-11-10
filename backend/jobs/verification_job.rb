@@ -33,7 +33,7 @@ MESSAGE_END
 
     if mail_uri.userinfo
       Net::SMTP.start(mail_uri.host, mail_uri.port, 'nitpick-6828.herokuapp.com', mail_uri.userinfo.split(':')[0], mail_uri.userinfo.split(':')[1]) do |smtp|
-        smtp.send_message message, 'nitpick@nitpick-6828.herokuapp.com', email
+        smtp.send_message message, 'phil@lightweaver.info', email
       end
     else
       Net::SMTP.start(mail_uri.host, mail_uri.port) do |smtp|
