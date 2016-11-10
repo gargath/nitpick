@@ -11,7 +11,8 @@ class JWTValidator
 
   def call(env)
     logger = env['logger']
-    token = env['HTTP_AUTHORIZATION']
+    auth_header = env['HTTP_AUTHORIZATION']
+    token = auth_header.split[1] if auth_header
     if token
       begin
         decode = JWT.decode token, JWT_SECRET
