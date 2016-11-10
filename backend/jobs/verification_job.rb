@@ -16,7 +16,7 @@ class VerificationEmailJob
     end
 
     message = <<MESSAGE_END
-From: Nitpick <nitpick@nitpick-6828.herokuapp.com>
+From: Nitpick <phil@lightweaver.info>
 To: #{username} <#{email}>
 Subject: Please verify your email
 
