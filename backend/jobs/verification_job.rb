@@ -30,6 +30,6 @@ MESSAGE_END
     Net::SMTP.start(mail_uri.host, mail_uri.port) do |smtp|
       smtp.send_message message, 'nitpick@example.com', email
     end
-    Resque.logger.info "Doing work for #{username} <#{email}> with token #{token} and user #{user_id}"
+    Resque.logger.info "Doing work for #{username} <#{email}>, token: #{token}, id: #{user_id}"
   end
 end

@@ -106,7 +106,7 @@ module Nitpick
       # TODO: Check if email already exists and reject if so
       new_user = User.create(username: u[:username],
                              email: u[:email],
-                             password: Password.create(u[:password]),
+                             password: u[:password],
                              status: 0)
       validation = UserValidation.create(created_at: Time.now,
                                          token: JWT.encode({ username: new_user.username,

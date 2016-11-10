@@ -6,9 +6,30 @@ describe Nitpick::AuthAPI do
 
   def app
     Rack::Builder.new do
+      use ActiveRecord::ConnectionAdapters::ConnectionManagement
       use AppLogger
-      run Nitpick::AuthAPI
+      use JWTValidator
+      run Nitpick::API
     end.to_app
+  end
+
+  before do
+    environment = 'test'
+    db_config = YAML.load(File.read('./config/database.yml'))
+    ActiveRecord::Base.establish_connection db_config[environment]
+    if ActiveRecord::Migrator.needs_migration?
+      ActiveRecord::Migrator.migrate('./db/migrate')
+    end
+    user = User.create
+    user.username = 'admin'
+    user.password = 'pass'
+    user.status = 1
+    user.save
+  end
+
+  after do
+    ActiveRecord::Base.remove_connection
+    File.delete('./db/test.sqlite3')
   end
 
   context 'when missing parameter' do
@@ -22,6 +43,18 @@ describe Nitpick::AuthAPI do
   context 'when using invalid credentials' do
     it 'responds with 403' do
       data = { 'username': 'user', 'password': 'invalid' }
+      post '/auth/v1/login', data
+      expect(last_response.status).to eq(403)
+    end
+  end
+
+  context 'when using an unconfirmed account' do
+    it 'responds 403' do
+      post '/users/v1/', 'user' => { 'username' => 'newuser',
+                                     'password' => 'pass',
+                                     'email' => 'email@example.com' }
+      expect(last_response.status).to eq(201)
+      data = { 'username': 'newuser', 'password': 'pass' }
       post '/auth/v1/login', data
       expect(last_response.status).to eq(403)
     end

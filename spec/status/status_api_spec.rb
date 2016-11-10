@@ -8,10 +8,30 @@ describe Nitpick::StatusAPI do
 
   def app
     Rack::Builder.new do
+      use ActiveRecord::ConnectionAdapters::ConnectionManagement
       use AppLogger
       use JWTValidator
       run Nitpick::API
     end.to_app
+  end
+
+  before do
+    environment = 'test'
+    db_config = YAML.load(File.read('./config/database.yml'))
+    ActiveRecord::Base.establish_connection db_config[environment]
+    if ActiveRecord::Migrator.needs_migration?
+      ActiveRecord::Migrator.migrate('./db/migrate')
+    end
+    user = User.create
+    user.username = 'admin'
+    user.password = 'pass'
+    user.status = 1
+    user.save
+  end
+
+  after do
+    ActiveRecord::Base.remove_connection
+    File.delete('./db/test.sqlite3')
   end
 
   context 'when pinged' do
@@ -23,6 +43,8 @@ describe Nitpick::StatusAPI do
   end
 
   context 'when asked for status' do
+    before(:each) do
+    end
     it 'responds with 403 to anonymous requests' do
       get '/status/v1/status'
       expect(last_response.status).to eq(403)
