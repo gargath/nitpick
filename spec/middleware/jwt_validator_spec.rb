@@ -19,7 +19,7 @@ describe JWTValidator do
 
   context 'when using a malformed token'
   it 'should respond with 401 and correct Header' do
-    header 'Authorization', 'invalid'
+    header 'Authorization', 'Bearer invalid'
     get '/'
     expect(last_response.status).to eq(401)
     expect(last_response.headers['X-JWT-ERROR']).to eq('Malformed Token')
@@ -32,7 +32,7 @@ describe JWTValidator do
       'somesecretthatsnothours',
       'HS256'
     )
-    header 'Authorization', token
+    header 'Authorization', "Bearer #{token}"
     get '/'
     expect(last_response.status).to eq(401)
     expect(last_response.headers['X-JWT-ERROR']).to eq('Invalid Signature')
@@ -46,7 +46,7 @@ describe JWTValidator do
       @secret,
       'HS256'
     )
-    header 'Authorization', token
+    header 'Authorization', "Bearer #{token}"
     get '/'
     expect(last_response.status).to eq(200)
     expect(JSON.parse(last_response.body)).to eq(payload)

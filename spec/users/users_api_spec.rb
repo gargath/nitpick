@@ -44,7 +44,7 @@ describe Nitpick::UsersAPI do
     it 'returns the admin user when authenticated' do
       post '/auth/v1/login', 'username' => 'admin', 'password' => 'pass'
       token = JSON.parse(last_response.body)['authtoken']
-      header 'Authorization', token
+      header 'Authorization', "Bearer #{token}"
       get '/users/v1/'
       expect(last_response.status).to eq(200)
       expect(JSON.parse(last_response.body)).to eq([{ 'id' => 1, 'username' => 'admin' }])
@@ -55,7 +55,7 @@ describe Nitpick::UsersAPI do
     it 'responds with the user details in case of valid id' do
       post '/auth/v1/login', 'username' => 'admin', 'password' => 'pass'
       token = JSON.parse(last_response.body)['authtoken']
-      header 'Authorization', token
+      header 'Authorization', "Bearer #{token}"
       get "/users/v1/#{@user_id}"
       expect(last_response.status).to eq(200)
       expect(JSON.parse(last_response.body)['username']).to eq('admin')
@@ -63,7 +63,7 @@ describe Nitpick::UsersAPI do
     it 'responds 404 if invalid id' do
       post '/auth/v1/login', 'username' => 'admin', 'password' => 'pass'
       token = JSON.parse(last_response.body)['authtoken']
-      header 'Authorization', token
+      header 'Authorization', "Bearer #{token}"
       get '/users/v1/999'
       expect(last_response.status).to eq(404)
     end

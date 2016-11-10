@@ -27,12 +27,9 @@ MESSAGE_END
 
     mail_uri = URI.parse ENV['SMTP_URL']
 
-    @logger.info "SMTP details:"
-    @logger.info "Host: #{mail_uri.host}:#{mail_uri.port}"
-    @logger.info "User: #{mail_uri.userinfo}"
-
     if mail_uri.userinfo
-      Net::SMTP.start(mail_uri.host, mail_uri.port, 'nitpick-6828.herokuapp.com', mail_uri.userinfo.split(':')[0], mail_uri.userinfo.split(':')[1]) do |smtp|
+      Net::SMTP.start(mail_uri.host, mail_uri.port, 'nitpick-6828.herokuapp.com',
+                      mail_uri.userinfo.split(':')[0], mail_uri.userinfo.split(':')[1]) do |smtp|
         smtp.send_message message, 'phil@lightweaver.info', email
       end
     else

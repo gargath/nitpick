@@ -92,7 +92,7 @@ module Nitpick
         logger.debug(format("User #{params[:id]} is not new"))
         error!({ 'error' => "User #{p} already verified" }, 409)
       elsif user.user_validation.token != params[:validation_token]
-        logger.debug(format("Token is invalid"))
+        logger.debug(format('Token is invalid'))
         error!({ 'error' => 'Invalid validation token' }, 403)
       end
       user.user_validation.completed_at = Time.now

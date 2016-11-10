@@ -53,7 +53,7 @@ describe Nitpick::StatusAPI do
     it 'responds with stuff when authenticated' do
       post '/auth/v1/login', 'username' => 'admin', 'password' => 'pass'
       token = JSON.parse(last_response.body)['authtoken']
-      header 'Authorization', token
+      header 'Authorization', "Bearer #{token}"
       get '/status/v1/status'
       expect(last_response.status).to eq(200)
       response = JSON.parse(last_response.body)
