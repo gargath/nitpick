@@ -3,6 +3,7 @@
 describe('myApp.view1 module', function () {
   beforeEach(module('myApp'));
   beforeEach(module('myApp.view1'));
+  beforeEach(module('myApp.alerts'));
   beforeEach(module('restangular'));
   var $rootScope, $httpBackend, Restangular, View1Ctrl, createController;
   var allUsers = [{firstname: "Piter", lastname: "Raccoon"}];
@@ -12,7 +13,7 @@ describe('myApp.view1 module', function () {
     $rootScope = $injector.get('$rootScope');
     Restangular = $injector.get('Restangular');
     $httpBackend = $injector.get('$httpBackend');
-    $httpBackend.when('GET', '/api/v1/users')
+    $httpBackend.when('GET', '/api/users/v1')
       .respond(
         allUsers
       );
@@ -36,6 +37,10 @@ describe('myApp.view1 module', function () {
     expect(Restangular.stripRestangular($rootScope.allUsers)).toEqual(allUsers);
   });
 
-  it('should op')
-
+  it('should hit the auth service when logging in', function () {
+    var ctrl = createController();
+    ctrl.login({username: 'user', password: 'pass'});
+    $httpBackend.expectPOST('/api/auth/v1/login').respond({authtoken: "123abc"});
+    $httpBackend.flush();
+  });
 });

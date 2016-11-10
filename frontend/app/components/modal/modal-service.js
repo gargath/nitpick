@@ -10,7 +10,7 @@ angular.module('myApp.modal.modal-service', ['ui.bootstrap'])
           ariaDescribedBy: 'modal-body',
           templateUrl: templateUrl,
           controller: ctrl,
-          controllerAs: '$ctrl'
+          controllerAs: '$modalCtrl'
         }
       )
     }

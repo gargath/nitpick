@@ -23,7 +23,9 @@ describe Nitpick::UsersAPI do
       ActiveRecord::Migrator.migrate('./db/migrate')
     end
     user = User.create
-    user.username = 'testuser'
+    user.username = 'admin'
+    user.password = 'pass'
+    user.status = 1
     user.save
     @user_id = user.id
     Resque.redis = Redis.new
@@ -39,13 +41,13 @@ describe Nitpick::UsersAPI do
       get '/users/v1/'
       expect(last_response.status).to eq(403)
     end
-    it 'returns the test user when authenticated' do
+    it 'returns the admin user when authenticated' do
       post '/auth/v1/login', 'username' => 'admin', 'password' => 'pass'
       token = JSON.parse(last_response.body)['authtoken']
       header 'Authorization', token
       get '/users/v1/'
       expect(last_response.status).to eq(200)
-      expect(JSON.parse(last_response.body)).to eq([{ 'id' => 1, 'username' => 'testuser' }])
+      expect(JSON.parse(last_response.body)).to eq([{ 'id' => 1, 'username' => 'admin' }])
     end
   end
 
@@ -56,7 +58,7 @@ describe Nitpick::UsersAPI do
       header 'Authorization', token
       get "/users/v1/#{@user_id}"
       expect(last_response.status).to eq(200)
-      expect(JSON.parse(last_response.body)['username']).to eq('testuser')
+      expect(JSON.parse(last_response.body)['username']).to eq('admin')
     end
     it 'responds 404 if invalid id' do
       post '/auth/v1/login', 'username' => 'admin', 'password' => 'pass'
@@ -84,7 +86,7 @@ describe Nitpick::UsersAPI do
       resp = JSON.parse(last_response.body)
       expect(resp['id']).not_to be_nil
       expect(User.exists?(resp['id'])).to be_truthy
-      expect(Resque.peek('verify_user', 0, 5).length).to eq(1)
+      expect(Resque.peek('verify_user', 0, 5).length).not_to eq(0)
     end
     it 'return 409 if a username is already taken' do
       post '/users/v1/', 'user' => { 'username' => 'newuser',
