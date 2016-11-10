@@ -22,7 +22,7 @@ Subject: Please verify your email
 
 Please verify the email address used to sign up for Nitpick by using the token below.
 
-#{token} / #{user_id}
+#{ENV['BASE_URL']}/web/#!/validate?token=#{token}
 MESSAGE_END
 
     mail_uri = URI.parse ENV['SMTP_URL']
