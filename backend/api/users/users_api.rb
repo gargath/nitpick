@@ -81,14 +81,18 @@ module Nitpick
       requires :validation_token, type: String
     end
     put ':id/validationtoken' do
+      logger.debug(format("Validating user #{params[:id]}"))
       begin
         user = User.find(params[:id])
       rescue ActiveRecord::RecordNotFound
+        logger.debug(format("User #{params[:id]} not found"))
         error!({ 'error' => 'No such user' }, 404)
       end
       if user.user_status != 'NEW'
+        logger.debug(format("User #{params[:id]} is not new"))
         error!({ 'error' => "User #{p} already verified" }, 409)
       elsif user.user_validation.token != params[:validation_token]
+        logger.debug(format("Token is invalid"))
         error!({ 'error' => 'Invalid validation token' }, 403)
       end
       user.user_validation.completed_at = Time.now
