@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('myApp.view1', ['myApp.modal', 'ngRoute', 'ui.bootstrap', 'restangular', 'myApp.alerts'])
-  .controller('View1Ctrl', ['$scope', '$http', '$q', 'Restangular', 'modalService', 'alertsService', function ($scope, $http, $q, Restangular, modalService, alertsService) {
+  .controller('View1Ctrl', ['$scope', '$http', '$q', 'Restangular', 'modalService', 'alertsService', 'authManager', function ($scope, $http, $q, Restangular, modalService, alertsService, authManager) {
     var $ctrl = this;
     $ctrl.alerts = alertsService;
 
@@ -11,8 +11,10 @@ angular.module('myApp.view1', ['myApp.modal', 'ngRoute', 'ui.bootstrap', 'restan
       $http.post('/api/auth/v1/login', {username: data.name, password: data.password})
         .then(function (response) {
           console.log("Login successful");
-          console.log("The JWT is " + response.data.authtoken);
+          localStorage.setItem('id_token', response.data.authtoken);
+          authManager.authenticate();
         }, function (response) {
+          localStorage.removeItem('id_token');
           alertsService.addAlert("danger", "Login failed!");
           console.log("Error during login: " + response.data.error);
         });
@@ -44,6 +46,11 @@ angular.module('myApp.view1', ['myApp.modal', 'ngRoute', 'ui.bootstrap', 'restan
           // Modal dismissed without submit
         }
       );
+    };
+
+    $ctrl.logout = function () {
+      localStorage.removeItem('id_token');
+      authManager.unauthenticate();
     };
 
     baseUsers.getList().then(function (users) {

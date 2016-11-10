@@ -3,7 +3,8 @@
     <nav>
       <ul class="nav nav-pills pull-right">
         <li role="presentation" class="active"><a href="#">Home</a></li>
-        <li role="presentation"><a href="#" ng-click="$ctrl.loginModal()" role="button">Log in</a></li>
+        <li role="presentation"><a href="#" ng-click="$ctrl.loginModal()" role="button" ng-if="!isAuthenticated">Log in</a></li>
+        <li role="presentation"><a href="#" ng-click="$ctrl.logout()" role="button" ng-if="isAuthenticated">Log out</a></li>
       </ul>
     </nav>
     <h3 class="text-muted">Nitpick 1.0</h3>
@@ -27,8 +28,8 @@
     <div class="col-lg-6">
       <h4>Why work on Nitpick? Join all these other <del>suckers</del> contributors:
       </h4>
-      <ul ng-repeat="user in allUsers">
-        <li>{{user.firstname}} {{user.lastname}}</li>
+      <ul ng-if="isAuthenticated" ng-repeat="user in allUsers">
+        <li>{{user.username}}</li>
       </ul>
     </div>
   </div>

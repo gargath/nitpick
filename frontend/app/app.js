@@ -14,7 +14,7 @@ angular.module('myApp', [
   'myApp.alerts',
   'ui.bootstrap',
   'restangular'
-]).config(['$locationProvider', '$routeProvider', 'RestangularProvider', function ($locationProvider, $routeProvider, RestangularProvider) {
+]).config(['$locationProvider', '$routeProvider', 'RestangularProvider', 'jwtOptionsProvider', '$httpProvider', function ($locationProvider, $routeProvider, RestangularProvider, jwtOptionsProvider, $httpProvider) {
   $locationProvider.hashPrefix('!');
 
   $routeProvider
@@ -30,4 +30,14 @@ angular.module('myApp', [
     }).otherwise({redirectTo: '/view1'});
 
   RestangularProvider.setBaseUrl('/api');
-}]);
+
+  jwtOptionsProvider.config({
+    tokenGetter: function () {
+      return localStorage.getItem('id_token');
+    }
+  });
+
+  $httpProvider.interceptors.push('jwtInterceptor');
+}]).run(['authManager', function (authManager) {
+  authManager.checkAuthOnRefresh();
+}])
